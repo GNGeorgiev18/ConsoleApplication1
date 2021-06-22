@@ -22,49 +22,79 @@ struct REGISTER
 class Motel
 {
     string name;
-    int capacity;
+    int capacity = 10;
     vector<REGISTER> bookings = {};
-    unsigned int currentBookingNumber;
-    int singleRoomCount = capacity * (40 / 100);
-    int doubleRoomCount = capacity * (40 / 100);
-    int mainsonetteRoomCount = capacity * (20 / 100);
+    unsigned int currentBookingNumber = 0;
+    int singleRoomCount = capacity * (40.0 / 100.0);
+    int doubleRoomCount = capacity * (40.0 / 100.0);
+    int mainsonetteRoomCount = capacity * (20.0 / 100.0);
     int i = -1;
+    int rentNumber = 0;
+public:
     Motel(string name, int capacity)
     {
 
     }
-    ROOM_PRICING getRoomPricing()
+    /*ROOM_PRICING getRoomPricing()
     {
 
-    }
-    void rentRoom(string clientName, string roomType, int numberOfNights)
+    }*/
+
+    string rentRoom(string clientName, string roomType, int numberOfNights)
     {
-        if (roomType == "singleRoom" and singleRoomCount > 0)
+        if (roomType == "singleRoom")
         {
-            i++;
-            int rentNumber;
-            cin >> rentNumber;
-            bookings[i].clientName = clientName;
-            bookings[i].roomType = roomType;
-            bookings[i].nights = numberOfNights;
-            bookings[i].rentNumber = rentNumber;
-            singleRoomCount--;
+            if (singleRoomCount > 0)
+            {
+                i++;
+                rentNumber++;
+                bookings.push_back({ bookings[i].clientName = clientName });
+                bookings.push_back({ bookings[i].roomType = roomType });
+                //bookings.push_back({ bookings[i].nights = numberOfNights });
+                //bookings.push_back({ bookings[i].rentNumber = rentNumber });
+                singleRoomCount--;
+                return "Enjoy your time here Mr. / Mrs. " + clientName + ". Your booking is " + to_string(rentNumber) + ".";
+            }
+            return "No " + roomType + " rooms available!" + "Available double rooms: " + to_string(doubleRoomCount) + "Available mainsonette rooms: " + to_string(mainsonetteRoomCount);
         }
-        if (roomType == "doubleRoom" and singleRoomCount > 0)
+        if (roomType == "doubleRoom")
         {
-            i++;
-            int rentNumber;
-            cin >> rentNumber;
-            bookings[i].clientName = clientName;
-            bookings[i].roomType = roomType;
-            bookings[i].nights = numberOfNights;
-            bookings[i].rentNumber = rentNumber;
-            singleRoomCount--;
+            if (doubleRoomCount > 0)
+            {
+                i++;
+                int rentNumber;
+                cin >> rentNumber;
+                bookings[i].clientName = clientName;
+                bookings[i].roomType = roomType;
+                bookings[i].nights = numberOfNights;
+                bookings[i].rentNumber = rentNumber;
+                doubleRoomCount--;
+                return "Enjoy your time here Mr. / Mrs. " + clientName + ". Your booking is " + to_string(rentNumber) + ".";
+            }
+            return "No " + roomType + " rooms available!" + "Available single rooms: " + to_string(singleRoomCount) + "Available mainsonette rooms: " + to_string(mainsonetteRoomCount);
         }
+        if (roomType == "maisonetteRoom")
+        {
+            if (mainsonetteRoomCount > 0)
+            {
+                i++;
+                int rentNumber;
+                cin >> rentNumber;
+                bookings[i].clientName = clientName;
+                bookings[i].roomType = roomType;
+                bookings[i].nights = numberOfNights;
+                bookings[i].rentNumber = rentNumber;
+                mainsonetteRoomCount--;
+                return "Enjoy your time here Mr. / Mrs. " + clientName + ". Your booking is " + to_string(rentNumber) + ".";
+            }
+            return "No " + roomType + " rooms available!" + "Available single rooms: " + to_string(singleRoomCount) + "Available double rooms: " + to_string(doubleRoomCount);
+        }
+        return  "Not happening";
     }
 };
 
 int main()
 {
-    
+    Motel m("ssd", 10);
+    cout << m.rentRoom("Ivan", "singleRoom", 3);
 }
